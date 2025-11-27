@@ -1,6 +1,6 @@
-# Terraform Project for deploying VyOS on AWS
+# Terraform Project for deploying KeyOS on AWS
 
-This Terraform project is designed to deploy VyOS instances on AWS. This script deploys a VyOS instance from the AWS Marketplace.
+This Terraform project is designed to deploy KeyOS instances on AWS. This script deploys a KeyOS instance from the AWS Marketplace.
 
 ## Prerequisites
 
@@ -24,7 +24,7 @@ export AWS_DEFAULT_REGION="<AWS_REGION>" # e.g us-east-1
 ```
 
 ### Fetch AMI ID and Owner ID (Required for main.tf)
-First, you must subscribe to VyOS in the AWS Marketplace.
+First, you must subscribe to KeyOS in the AWS Marketplace.
 Then, use the following AWS CLI command to find the correct AMI ID, Owner ID, and ensure you're querying the correct region (e.g., `us-east-1`):
 
 ```sh
@@ -34,7 +34,7 @@ aws ec2 describe-images \
   --query 'Images[*].[ImageId,OwnerId,Name]' \
   --output table
 ```
-Alternatively, you can hardcode the latest AMI ID for your region in `variables.tf` adding the `vyos_ami_id` variable.
+Alternatively, you can hardcode the latest AMI ID for your region in `variables.tf` adding the `keyos_ami_id` variable.
 
 ### Generate SSH keypair
 
@@ -43,20 +43,20 @@ A demo SSH keypair is included in the `keys/` folder.
 To generate a new key (optional):
 
 ```sh
-ssh-keygen -b 2048 -t rsa -m PEM -f keys/vyos_custom_key.pem
+ssh-keygen -b 2048 -t rsa -m PEM -f keys/keyos_custom_key.pem
 ```
 
 ## Project Structure
 
 ```
 .
-├── files/                      # VyOS user-data
+├── files/                      # KeyOS user-data
 ├── keys/                       # Pre-generated SSH keys
 ├── network.tf                  # Network setup
 ├── provider.tf                 # Provider configuration
 ├── security_groups.tf          # Security group configurations
 ├── variables.tf                # Input variables for customization
-├── vyos_instance.tf            # VyOS virtual machine deployment (AWS)
+├── keyos_instance.tf            # KeyOS virtual machine deployment (AWS)
 └── README.md                   # Documentation
 ```
 
@@ -64,7 +64,7 @@ ssh-keygen -b 2048 -t rsa -m PEM -f keys/vyos_custom_key.pem
 
 ### Setup Variables
 
-All variables needed for customization are defined in `variables.tf`. Adjust them according to your requirements, such as EC2 instance type and networking configurations. Before deployment, ensure you check `aws_region`, `availability_zone`, and update `vyos_ami_id` as necessary.
+All variables needed for customization are defined in `variables.tf`. Adjust them according to your requirements, such as EC2 instance type and networking configurations. Before deployment, ensure you check `aws_region`, `availability_zone`, and update `keyos_ami_id` as necessary.
 
 ## How to Run the Module
 
@@ -100,13 +100,13 @@ Follow these steps to initialize, plan, apply, and manage your infrastructure wi
    ```sh
    terraform output
    ```
-   This will display the management IP and test results for the VyOS instance.
+   This will display the management IP and test results for the KeyOS instance.
 
 ## Management
 
-To manage the VyOS instance, use the `vyos_public_ip` from `terraform output`:
+To manage the KeyOS instance, use the `keyos_public_ip` from `terraform output`:
 ```sh
-ssh vyos@<vyos_public_ip> -i keys/vyos_demo_private_key.pem
+ssh keyos@<keyos_public_ip> -i keys/keyos_demo_private_key.pem
 ```
 
 ## Destroying Resources

@@ -1,0 +1,4 @@
+ansible_connection: ansible.netcommon.network_cli
+ansible_network_os: keyos.keyos.keyos
+ansible_user: keyos
+ansible_ssh_pass: keyos

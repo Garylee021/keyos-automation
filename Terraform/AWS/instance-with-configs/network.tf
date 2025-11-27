@@ -51,18 +51,18 @@ resource "aws_internet_gateway" "igw" {
 
 # ELASTICS IP FOR VYOS
 
-resource "aws_eip" "vyos_eip" {
+resource "aws_eip" "keyos_eip" {
   domain     = "vpc"
   depends_on = [aws_internet_gateway.igw]
 
   tags = {
-    Name = join("-", [var.prefix, var.vyos_eip_name])
+    Name = join("-", [var.prefix, var.keyos_eip_name])
   }
 }
 
-resource "aws_eip_association" "vyos_eip_association" {
-  allocation_id        = aws_eip.vyos_eip.id
-  network_interface_id = aws_network_interface.vyos_public_nic.id
+resource "aws_eip_association" "keyos_eip_association" {
+  allocation_id        = aws_eip.keyos_eip.id
+  network_interface_id = aws_network_interface.keyos_public_nic.id
 }
 
 # PUBLIC ROUTE TABLE

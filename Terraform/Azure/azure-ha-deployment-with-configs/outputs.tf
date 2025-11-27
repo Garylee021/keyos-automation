@@ -1,9 +1,9 @@
-output "vyos_01_public_ip" {
-  value = azurerm_public_ip.vyos_01_vm_public_ip.ip_address
+output "keyos_01_public_ip" {
+  value = azurerm_public_ip.keyos_01_vm_public_ip.ip_address
 }
 
-output "vyos_02_public_ip" {
-  value = azurerm_public_ip.vyos_02_vm_public_ip.ip_address
+output "keyos_02_public_ip" {
+  value = azurerm_public_ip.keyos_02_vm_public_ip.ip_address
 }
 
 output "ubuntu_vm_public_ip" {
@@ -19,12 +19,12 @@ output "admin_password" {
   sensitive = true
 }
 
-output "ssh_command_vyos_01_vm" {
-  value = "ssh -i keys/id_rsa ${var.admin_username}@${azurerm_public_ip.vyos_01_vm_public_ip.ip_address}"
+output "ssh_command_keyos_01_vm" {
+  value = "ssh -i keys/id_rsa ${var.admin_username}@${azurerm_public_ip.keyos_01_vm_public_ip.ip_address}"
 }
 
-output "ssh_command_vyos_02_vm" {
-  value = "ssh -i keys/id_rsa ${var.admin_username}@${azurerm_public_ip.vyos_02_vm_public_ip.ip_address}"
+output "ssh_command_keyos_02_vm" {
+  value = "ssh -i keys/id_rsa ${var.admin_username}@${azurerm_public_ip.keyos_02_vm_public_ip.ip_address}"
 }
 
 output "ssh_command_ubuntu_vm" {

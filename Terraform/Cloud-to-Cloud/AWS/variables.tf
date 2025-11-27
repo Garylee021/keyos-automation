@@ -10,8 +10,8 @@ variable "availability_zone" {
   default     = "us-east-1a"
 }
 
-variable "vyos_ami_id" {
-  description = "VyOS custom AMI from AWS"
+variable "keyos_ami_id" {
+  description = "KeyOS custom AMI from AWS"
   type        = string
 }
 
@@ -24,17 +24,17 @@ variable "prefix" {
 variable "key_pair_name" {
   description = "SSH key pair name"
   type        = string
-  default     = "vyos-test-key"
+  default     = "keyos-test-key"
 }
 
 variable "private_key_path" {
   description = "Path to the private key file"
-  default     = "keys/vyos_lab_private_key.pem"
+  default     = "keys/keyos_lab_private_key.pem"
 }
 
 variable "public_key_path" {
   description = "Path to the private key file"
-  default     = "keys/vyos_lab_public_key.pem"
+  default     = "keys/keyos_lab_public_key.pem"
 }
 
 # Transit VPC and Subnets
@@ -76,9 +76,9 @@ variable "transit_vpc_igw_name" {
   default = "transit-vpc-igw"
 }
 
-variable "vyos_eip_name" {
+variable "keyos_eip_name" {
   type    = string
-  default = "vyos"
+  default = "keyos"
 }
 
 variable "transit_vpc_public_rtb_name" {
@@ -101,36 +101,36 @@ variable "transit_vpc_private_sg_name" {
   default = "transit-vpc-private-sg"
 }
 
-# VyOS instance
+# KeyOS instance
 
-variable "vyos_pub_nic_ip_address" {
-  description = "VyOS Instance Public address"
+variable "keyos_pub_nic_ip_address" {
+  description = "KeyOS Instance Public address"
   type        = string
   default     = "172.16.1.11"
 }
 
-variable "vyos_priv_nic_address" {
-  description = "VyOS Instance Private NIC address"
+variable "keyos_priv_nic_address" {
+  description = "KeyOS Instance Private NIC address"
   type        = string
   default     = "172.16.11.11"
 }
 
-variable "vyos_instance_type" {
-  description = "The type of the VyOS Instance"
+variable "keyos_instance_type" {
+  description = "The type of the KeyOS Instance"
   type        = string
   default     = "c5n.xlarge"
 }
 
-variable "vyos_instance_name" {
+variable "keyos_instance_name" {
   type    = string
-  default = "VyOS"
+  default = "KeyOS"
 }
 
 variable "dns" {
   default = "8.8.8.8"
 }
 
-variable "vyos_bgp_as_number" {
+variable "keyos_bgp_as_number" {
   default = "65001"
 }
 

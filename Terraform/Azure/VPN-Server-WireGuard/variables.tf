@@ -15,8 +15,8 @@ variable "tags" {
   type        = map(string)
   default = {
     environment = "Test"
-    project     = "VyOS VPN Server"
-    owner       = "VyOS Networks"
+    project     = "KeyOS VPN Server"
+    owner       = "KeyOS Networks"
     created-by  = "Terraform"
   }
 }
@@ -34,11 +34,11 @@ variable "dns_2" {
 }
 
 #------------------------------------------------------------------------------------------
-# VyOS credentials
+# KeyOS credentials
 
 variable "admin_username" {
   description = "Administrator user name"
-  default     = "vyos"
+  default     = "keyos"
 }
 
 variable "admin_password" {
@@ -47,7 +47,7 @@ variable "admin_password" {
 }
 
 #------------------------------------------------------------------------------------------
-# Variables related VyOS VM and image selection
+# Variables related KeyOS VM and image selection
 
 variable "vm_size" {
   description = "Specifies the size of the virtual machine."
@@ -61,12 +61,12 @@ variable "image_publisher" {
 
 variable "image_offer" {
   description = "Name of the offer (az vm image list)"
-  default     = "vyos-1-2-lts-on-azure"
+  default     = "keyos-1-2-lts-on-azure"
 }
 
 variable "image_sku" {
   description = "Image SKU to apply (az vm image list)"
-  default     = "vyos-1-3"
+  default     = "keyos-1-3"
 }
 
 variable "image_version" {

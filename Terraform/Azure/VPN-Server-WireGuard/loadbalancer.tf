@@ -1,6 +1,6 @@
 # Create Load Balancer
-resource "azurerm_lb" "azurerm_lb_vyos_vpn_lb" {
-  name                = join("-", [var.prefix, "VyOS", "VPN", "Pub", "LB"])
+resource "azurerm_lb" "azurerm_lb_keyos_vpn_lb" {
+  name                = join("-", [var.prefix, "KeyOS", "VPN", "Pub", "LB"])
   location            = var.location
   resource_group_name = var.resource_group
   sku                 = "Standard"
@@ -14,18 +14,18 @@ resource "azurerm_lb" "azurerm_lb_vyos_vpn_lb" {
 
 resource "azurerm_lb_backend_address_pool" "azure_lb_pool" {
   name            = "BackEndAddressPool"
-  loadbalancer_id = azurerm_lb.azurerm_lb_vyos_vpn_lb.id
+  loadbalancer_id = azurerm_lb.azurerm_lb_keyos_vpn_lb.id
 }
 
 resource "azurerm_lb_probe" "azure_lb_probe" {
-  name            = "VyOS_Test"
-  loadbalancer_id = azurerm_lb.azurerm_lb_vyos_vpn_lb.id
+  name            = "KeyOS_Test"
+  loadbalancer_id = azurerm_lb.azurerm_lb_keyos_vpn_lb.id
   port            = 22
 }
 
 resource "azurerm_lb_rule" "azure_lb_rule_wireguard" {
   name                           = "WireGuard"
-  loadbalancer_id                = azurerm_lb.azurerm_lb_vyos_vpn_lb.id
+  loadbalancer_id                = azurerm_lb.azurerm_lb_keyos_vpn_lb.id
   protocol                       = "Udp"
   frontend_port                  = var.wg_server_port
   backend_port                   = var.wg_server_port
@@ -37,7 +37,7 @@ resource "azurerm_lb_rule" "azure_lb_rule_wireguard" {
   disable_outbound_snat          = true
 }
 
-resource "azurerm_network_interface_backend_address_pool_association" "vnet_VyOS" {
+resource "azurerm_network_interface_backend_address_pool_association" "vnet_KeyOS" {
   count                   = 2
   network_interface_id    = azurerm_network_interface.azure_vnet_vpn_net_nic[count.index].id
   ip_configuration_name   = "ifconfig-${count.index}"
@@ -47,7 +47,7 @@ resource "azurerm_network_interface_backend_address_pool_association" "vnet_VyOS
 
 resource "azurerm_lb_nat_rule" "azure_lb_nat_rule_dns_udp" {
   resource_group_name            = var.resource_group
-  loadbalancer_id                = azurerm_lb.azurerm_lb_vyos_vpn_lb.id
+  loadbalancer_id                = azurerm_lb.azurerm_lb_keyos_vpn_lb.id
   name                           = "DNS-UDP"
   protocol                       = "Udp"
   frontend_port                  = 53
@@ -57,7 +57,7 @@ resource "azurerm_lb_nat_rule" "azure_lb_nat_rule_dns_udp" {
 
 resource "azurerm_lb_nat_rule" "azure_lb_nat_rule_dns_tcp" {
   resource_group_name            = var.resource_group
-  loadbalancer_id                = azurerm_lb.azurerm_lb_vyos_vpn_lb.id
+  loadbalancer_id                = azurerm_lb.azurerm_lb_keyos_vpn_lb.id
   name                           = "DNS-TCP"
   protocol                       = "Tcp"
   frontend_port                  = 53
@@ -67,7 +67,7 @@ resource "azurerm_lb_nat_rule" "azure_lb_nat_rule_dns_tcp" {
 
 resource "azurerm_lb_nat_rule" "azure_lb_nat_rule_http" {
   resource_group_name            = var.resource_group
-  loadbalancer_id                = azurerm_lb.azurerm_lb_vyos_vpn_lb.id
+  loadbalancer_id                = azurerm_lb.azurerm_lb_keyos_vpn_lb.id
   name                           = "HTTP"
   protocol                       = "Tcp"
   frontend_port                  = 80
@@ -77,7 +77,7 @@ resource "azurerm_lb_nat_rule" "azure_lb_nat_rule_http" {
 
 resource "azurerm_lb_nat_rule" "azure_lb_nat_rule_https" {
   resource_group_name            = var.resource_group
-  loadbalancer_id                = azurerm_lb.azurerm_lb_vyos_vpn_lb.id
+  loadbalancer_id                = azurerm_lb.azurerm_lb_keyos_vpn_lb.id
   name                           = "HTTPS"
   protocol                       = "Tcp"
   frontend_port                  = 443
@@ -87,7 +87,7 @@ resource "azurerm_lb_nat_rule" "azure_lb_nat_rule_https" {
 
 resource "azurerm_lb_nat_rule" "azure_lb_nat_rule_ssh" {
   resource_group_name            = var.resource_group
-  loadbalancer_id                = azurerm_lb.azurerm_lb_vyos_vpn_lb.id
+  loadbalancer_id                = azurerm_lb.azurerm_lb_keyos_vpn_lb.id
   name                           = "SSH"
   protocol                       = "Tcp"
   frontend_port_start            = 21
@@ -99,7 +99,7 @@ resource "azurerm_lb_nat_rule" "azure_lb_nat_rule_ssh" {
 
 resource "azurerm_lb_outbound_rule" "azurerm_lb_outbound_WG_out" {
   name                    = "OutboundRule"
-  loadbalancer_id         = azurerm_lb.azurerm_lb_vyos_vpn_lb.id
+  loadbalancer_id         = azurerm_lb.azurerm_lb_keyos_vpn_lb.id
   protocol                = "All"
   backend_address_pool_id = azurerm_lb_backend_address_pool.azure_lb_pool.id
 

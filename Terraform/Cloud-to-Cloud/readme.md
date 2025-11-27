@@ -1,6 +1,6 @@
-# Terraform Projects for Deploying VyOS on AWS and Azure for Cloud-to-Cloud Connectivity
+# Terraform Projects for Deploying KeyOS on AWS and Azure for Cloud-to-Cloud Connectivity
 
-This project provides Terraform modules and examples to deploy **VyOS routers on AWS and Azure** in order to establish a **secure Cloud-to-Cloud connection** using **IPsec with BGP**.  
+This project provides Terraform modules and examples to deploy **KeyOS routers on AWS and Azure** in order to establish a **secure Cloud-to-Cloud connection** using **IPsec with BGP**.  
 
 ---
 
@@ -18,12 +18,12 @@ Cloud-to-cloud connectivity is needed in modern multi-cloud environments for sev
 
 - **Testing and Validation**  
   Labs and POCs often simulate multi-cloud architectures.  
-  A VyOS-based tunnel lets teams test routing, encryption, and failover before production rollout.
+  A KeyOS-based tunnel lets teams test routing, encryption, and failover before production rollout.
 
 ---
 ## Architecture
 
-The architecture consists of VyOS routers deployed in both AWS and Azure, connected via secure IPsec tunnels. BGP is used for dynamic routing between the clouds, allowing for seamless communication.
+The architecture consists of KeyOS routers deployed in both AWS and Azure, connected via secure IPsec tunnels. BGP is used for dynamic routing between the clouds, allowing for seamless communication.
 
 This is the connection diagram:
 ![Infrastructure Diagram](Diagram/AWS-to-Azure.png)
@@ -50,7 +50,7 @@ export AWS_DEFAULT_REGION="<AWS_REGION>" # e.g us-east-1
 ```
 
 ### Fetch AMI ID and Owner ID (Required for main.tf)
-First, you must subscribe to VyOS in the AWS Marketplace.
+First, you must subscribe to KeyOS in the AWS Marketplace.
 Then, use the following AWS CLI command to find the correct AMI ID, Owner ID, and ensure you're querying the correct region (e.g., `us-east-1`):
 
 ```sh
@@ -60,7 +60,7 @@ aws ec2 describe-images \
   --query 'Images[*].[ImageId,OwnerId,Name]' \
   --output table
 ```
-Alternatively, you can hardcode the latest AMI ID for your region in `variables.tf` adding the `vyos_ami_id` variable.
+Alternatively, you can hardcode the latest AMI ID for your region in `variables.tf` adding the `keyos_ami_id` variable.
 
 ### Generate SSH keypair
 
@@ -69,7 +69,7 @@ A demo SSH keypair is included in the `keys/` folder.
 To generate a new key (optional):
 
 ```sh
-ssh-keygen -b 2048 -t rsa -m PEM -f keys/vyos_custom_key.pem
+ssh-keygen -b 2048 -t rsa -m PEM -f keys/keyos_custom_key.pem
 ```
  
 ### Azure Requirements
@@ -108,7 +108,7 @@ az group show --name exampleGroup
 
 **AWS**
 
-All variables needed for customization are defined in `variables.tf`. Adjust them according to your requirements, such as EC2 instance type and networking configurations. Before deployment, ensure you check `aws_region`, `availability_zone`, and update `vyos_ami_id` as necessary.
+All variables needed for customization are defined in `variables.tf`. Adjust them according to your requirements, such as EC2 instance type and networking configurations. Before deployment, ensure you check `aws_region`, `availability_zone`, and update `keyos_ami_id` as necessary.
 
 **Azure**
 
@@ -148,31 +148,31 @@ Confirm the execution when prompted to provision the infrastructure.
 ```sh
 terraform output
 ```
-This will display the management IP and test results for the VyOS instance.
+This will display the management IP and test results for the KeyOS instance.
 
 ## Management
 
-To manage the VyOS instance, use the `vyos_public_ip` from `terraform output`:
+To manage the KeyOS instance, use the `keyos_public_ip` from `terraform output`:
 ```sh
-ssh vyos@<vyos_public_ip> -i keys/vyos_custom_key.pem
+ssh keyos@<keyos_public_ip> -i keys/keyos_custom_key.pem
 ```
 ## Post-Deployment Configuration
 
-After deployment, apply the following manual changes to both VyOS routers on AWS and Azure.
+After deployment, apply the following manual changes to both KeyOS routers on AWS and Azure.
     
-### VyOS on AWS
+### KeyOS on AWS
 
-```vyos
-delete vpn ipsec site-to-site peer AZURE-VyOS remote-address
-set vpn ipsec site-to-site peer AZURE-VyOS remote-address '<AZURE-VyOS-Pub-IP>'
+```keyos
+delete vpn ipsec site-to-site peer AZURE-KeyOS remote-address
+set vpn ipsec site-to-site peer AZURE-KeyOS remote-address '<AZURE-KeyOS-Pub-IP>'
 set vpn ipsec option disable-route-autoinstall
 ```
 
-### VyOS on Azure
+### KeyOS on Azure
 
-```vyos
-delete vpn ipsec site-to-site peer AWS-VyOS remote-address
-set vpn ipsec site-to-site peer AWS-VyOS remote-address '<AWS-VyOS-Pub-IP>'
+```keyos
+delete vpn ipsec site-to-site peer AWS-KeyOS remote-address
+set vpn ipsec site-to-site peer AWS-KeyOS remote-address '<AWS-KeyOS-Pub-IP>'
 set vpn ipsec option disable-route-autoinstall
 ```
 

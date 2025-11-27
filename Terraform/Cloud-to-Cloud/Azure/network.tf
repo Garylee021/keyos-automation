@@ -45,7 +45,7 @@ resource "azurerm_route_table" "ubuntu_vm_priv_subnet_route" {
     name                   = "DefaultRoute"
     address_prefix         = var.aws_subnet_cidr
     next_hop_type          = "VirtualAppliance"
-    next_hop_in_ip_address = azurerm_network_interface.vyos_priv_nic.private_ip_address
+    next_hop_in_ip_address = azurerm_network_interface.keyos_priv_nic.private_ip_address
   }
 
   tags = var.tags

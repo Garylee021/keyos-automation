@@ -19,17 +19,17 @@ variable "prefix" {
 variable "key_pair_name" {
   description = "SSH key pair name"
   type        = string
-  default     = "vyos-demo-key"
+  default     = "keyos-demo-key"
 }
 
 variable "private_key_path" {
   description = "Path to the private key file"
-  default     = "keys/vyos_demo_private_key.pem"
+  default     = "keys/keyos_demo_private_key.pem"
 }
 
 variable "public_key_path" {
   description = "Path to the private key file"
-  default     = "keys/vyos_demo_public_key.pem"
+  default     = "keys/keyos_demo_public_key.pem"
 }
 
 variable "vpc_name" {
@@ -66,27 +66,27 @@ variable "private_subnet_cidr" {
   default     = "172.16.11.0/24"
 }
 
-variable "vyos_pub_nic_ip_address" {
-  description = "VyOS Instance Public address"
+variable "keyos_pub_nic_ip_address" {
+  description = "KeyOS Instance Public address"
   type        = string
   default     = "172.16.1.11"
 }
 
-variable "vyos_priv_nic_address" {
-  description = "VyOS Instance Private NIC address"
+variable "keyos_priv_nic_address" {
+  description = "KeyOS Instance Private NIC address"
   type        = string
   default     = "172.16.11.11"
 }
 
-variable "vyos_instance_type" {
-  description = "The type of the VyOS Instance"
+variable "keyos_instance_type" {
+  description = "The type of the KeyOS Instance"
   type        = string
   default     = "c5n.xlarge"
 }
 
-variable "vyos_instance_name" {
+variable "keyos_instance_name" {
   type    = string
-  default = "VyOS"
+  default = "KeyOS"
 }
 
 variable "igw_name" {
@@ -94,9 +94,9 @@ variable "igw_name" {
   default = "igw"
 }
 
-variable "vyos_eip_name" {
+variable "keyos_eip_name" {
   type    = string
-  default = "vyos"
+  default = "keyos"
 }
 
 variable "public_rtb_name" {

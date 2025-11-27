@@ -1,7 +1,7 @@
 
-# Public IP for VyOS 01 VM
-resource "azurerm_public_ip" "vyos_01_vm_public_ip" {
-  name                    = "vyos-01-vm-public-ip"
+# Public IP for KeyOS 01 VM
+resource "azurerm_public_ip" "keyos_01_vm_public_ip" {
+  name                    = "keyos-01-vm-public-ip"
   location                = var.location
   resource_group_name     = var.resource_group
   allocation_method       = "Static"
@@ -15,9 +15,9 @@ resource "azurerm_public_ip" "vyos_01_vm_public_ip" {
   }
 }
 
-# Public IP for VyOS 02 VM
-resource "azurerm_public_ip" "vyos_02_vm_public_ip" {
-  name                    = "vyos-02-vm-public-ip"
+# Public IP for KeyOS 02 VM
+resource "azurerm_public_ip" "keyos_02_vm_public_ip" {
+  name                    = "keyos-02-vm-public-ip"
   location                = var.location
   resource_group_name     = var.resource_group
   allocation_method       = "Static"
@@ -43,19 +43,19 @@ resource "azurerm_public_ip" "ubuntu_vm_public_ip" {
 
 }
 
-# VyOS 01 Public NIC
-resource "azurerm_network_interface" "vyos_01_pub_nic" {
-  name                = "vyos-01-pub-nic"
+# KeyOS 01 Public NIC
+resource "azurerm_network_interface" "keyos_01_pub_nic" {
+  name                = "keyos-01-pub-nic"
   location            = var.location
   resource_group_name = var.resource_group
   tags                = var.tags
 
   ip_configuration {
-    name                          = "vyos-01-public"
+    name                          = "keyos-01-public"
     subnet_id                     = azurerm_subnet.transit_vnet_public_subnet_01.id
     private_ip_address_allocation = "Static"
-    private_ip_address            = var.vyos_01_public_nic_ip_address
-    public_ip_address_id          = azurerm_public_ip.vyos_01_vm_public_ip.id
+    private_ip_address            = var.keyos_01_public_nic_ip_address
+    public_ip_address_id          = azurerm_public_ip.keyos_01_vm_public_ip.id
   }
 
   timeouts {
@@ -64,9 +64,9 @@ resource "azurerm_network_interface" "vyos_01_pub_nic" {
   }
 }
 
-# VyOS 01 Private NIC
-resource "azurerm_network_interface" "vyos_01_priv_nic" {
-  name                = "vyos-01-priv-nic"
+# KeyOS 01 Private NIC
+resource "azurerm_network_interface" "keyos_01_priv_nic" {
+  name                = "keyos-01-priv-nic"
   location            = var.location
   resource_group_name = var.resource_group
   tags                = var.tags
@@ -75,10 +75,10 @@ resource "azurerm_network_interface" "vyos_01_priv_nic" {
   accelerated_networking_enabled = true
 
   ip_configuration {
-    name                          = "vyos-01-private"
+    name                          = "keyos-01-private"
     subnet_id                     = azurerm_subnet.transit_vnet_private_subnet_01.id
     private_ip_address_allocation = "Static"
-    private_ip_address            = var.vyos_01_priv_nic_ip_address
+    private_ip_address            = var.keyos_01_priv_nic_ip_address
   }
 
   timeouts {
@@ -87,19 +87,19 @@ resource "azurerm_network_interface" "vyos_01_priv_nic" {
   }
 }
 
-# VyOS 02 Public NIC
-resource "azurerm_network_interface" "vyos_02_pub_nic" {
-  name                = "vyos-02-pub-nic"
+# KeyOS 02 Public NIC
+resource "azurerm_network_interface" "keyos_02_pub_nic" {
+  name                = "keyos-02-pub-nic"
   location            = var.location
   resource_group_name = var.resource_group
   tags                = var.tags
 
   ip_configuration {
-    name                          = "vyos-02-public"
+    name                          = "keyos-02-public"
     subnet_id                     = azurerm_subnet.transit_vnet_public_subnet_02.id
     private_ip_address_allocation = "Static"
-    private_ip_address            = var.vyos_02_public_nic_ip_address
-    public_ip_address_id          = azurerm_public_ip.vyos_02_vm_public_ip.id
+    private_ip_address            = var.keyos_02_public_nic_ip_address
+    public_ip_address_id          = azurerm_public_ip.keyos_02_vm_public_ip.id
   }
 
   timeouts {
@@ -108,9 +108,9 @@ resource "azurerm_network_interface" "vyos_02_pub_nic" {
   }
 }
 
-# VyOS 01 Private NIC
-resource "azurerm_network_interface" "vyos_02_priv_nic" {
-  name                = "vyos-02-priv-nic"
+# KeyOS 01 Private NIC
+resource "azurerm_network_interface" "keyos_02_priv_nic" {
+  name                = "keyos-02-priv-nic"
   location            = var.location
   resource_group_name = var.resource_group
   tags                = var.tags
@@ -119,10 +119,10 @@ resource "azurerm_network_interface" "vyos_02_priv_nic" {
   accelerated_networking_enabled = true
 
   ip_configuration {
-    name                          = "vyos-02-private"
+    name                          = "keyos-02-private"
     subnet_id                     = azurerm_subnet.transit_vnet_private_subnet_02.id
     private_ip_address_allocation = "Static"
-    private_ip_address            = var.vyos_02_priv_nic_ip_address
+    private_ip_address            = var.keyos_02_priv_nic_ip_address
   }
 
   timeouts {
@@ -152,17 +152,17 @@ resource "azurerm_network_interface" "ubuntu_vm_pub_nic" {
 
 }
 
-# VyOS 01 virtual machine parameters
-resource "azurerm_linux_virtual_machine" "vyos_01_vm" {
-  name                = "vyos-vm-01"
+# KeyOS 01 virtual machine parameters
+resource "azurerm_linux_virtual_machine" "keyos_01_vm" {
+  name                = "keyos-vm-01"
   location            = var.location
   resource_group_name = var.resource_group
-  size                = var.vyos_vm_size
+  size                = var.keyos_vm_size
   tags                = var.tags
 
   network_interface_ids = [
-    azurerm_network_interface.vyos_01_pub_nic.id,
-    azurerm_network_interface.vyos_01_priv_nic.id
+    azurerm_network_interface.keyos_01_pub_nic.id,
+    azurerm_network_interface.keyos_01_priv_nic.id
   ]
 
   admin_ssh_key {
@@ -175,11 +175,11 @@ resource "azurerm_linux_virtual_machine" "vyos_01_vm" {
   disable_password_authentication = false
 
 
-  custom_data = base64encode(templatefile("${path.module}/files/vyos_01_user_data.tpl", {
-    vyos_01_priv_subnet   = var.transit_vnet_private_subnet_01_prefix[0],
-    vyos_01_pub_nic_ip    = azurerm_network_interface.vyos_01_pub_nic.private_ip_address,
-    vyos_01_priv_nic_ip   = azurerm_network_interface.vyos_01_priv_nic.private_ip_address,
-    vyos_01_bgp_as_number = var.vyos_bgp_as_number,
+  custom_data = base64encode(templatefile("${path.module}/files/keyos_01_user_data.tpl", {
+    keyos_01_priv_subnet   = var.transit_vnet_private_subnet_01_prefix[0],
+    keyos_01_pub_nic_ip    = azurerm_network_interface.keyos_01_pub_nic.private_ip_address,
+    keyos_01_priv_nic_ip   = azurerm_network_interface.keyos_01_priv_nic.private_ip_address,
+    keyos_01_bgp_as_number = var.keyos_bgp_as_number,
     route_server_ip_01    = local.route_server_ips[0],
     route_server_ip_02    = local.route_server_ips[1],
     dns                   = var.dns,
@@ -189,7 +189,7 @@ resource "azurerm_linux_virtual_machine" "vyos_01_vm" {
   }))
 
   os_disk {
-    name                 = "vyos-vm-01-osdisk"
+    name                 = "keyos-vm-01-osdisk"
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
@@ -208,9 +208,9 @@ resource "azurerm_linux_virtual_machine" "vyos_01_vm" {
   }
 
   depends_on = [
-    azurerm_network_interface.vyos_01_pub_nic,
-    azurerm_network_interface.vyos_01_priv_nic,
-    azurerm_public_ip.vyos_01_vm_public_ip
+    azurerm_network_interface.keyos_01_pub_nic,
+    azurerm_network_interface.keyos_01_priv_nic,
+    azurerm_public_ip.keyos_01_vm_public_ip
   ]
 
   timeouts {
@@ -220,17 +220,17 @@ resource "azurerm_linux_virtual_machine" "vyos_01_vm" {
   }
 }
 
-# VyOS 02 virtual machine parameters
-resource "azurerm_linux_virtual_machine" "vyos_02_vm" {
-  name                = "vyos-vm-02"
+# KeyOS 02 virtual machine parameters
+resource "azurerm_linux_virtual_machine" "keyos_02_vm" {
+  name                = "keyos-vm-02"
   location            = var.location
   resource_group_name = var.resource_group
-  size                = var.vyos_vm_size
+  size                = var.keyos_vm_size
   tags                = var.tags
 
   network_interface_ids = [
-    azurerm_network_interface.vyos_02_pub_nic.id,
-    azurerm_network_interface.vyos_02_priv_nic.id
+    azurerm_network_interface.keyos_02_pub_nic.id,
+    azurerm_network_interface.keyos_02_priv_nic.id
   ]
 
   admin_ssh_key {
@@ -243,13 +243,13 @@ resource "azurerm_linux_virtual_machine" "vyos_02_vm" {
   disable_password_authentication = false
 
 
-  custom_data = base64encode(templatefile("${path.module}/files/vyos_02_user_data.tpl", {
-    vyos_02_priv_subnet   = var.transit_vnet_private_subnet_02_prefix[0],
-    vyos_02_pub_nic_ip    = azurerm_network_interface.vyos_02_pub_nic.private_ip_address,
-    vyos_02_priv_nic_ip   = azurerm_network_interface.vyos_02_priv_nic.private_ip_address,
+  custom_data = base64encode(templatefile("${path.module}/files/keyos_02_user_data.tpl", {
+    keyos_02_priv_subnet   = var.transit_vnet_private_subnet_02_prefix[0],
+    keyos_02_pub_nic_ip    = azurerm_network_interface.keyos_02_pub_nic.private_ip_address,
+    keyos_02_priv_nic_ip   = azurerm_network_interface.keyos_02_priv_nic.private_ip_address,
     route_server_ip_01    = local.route_server_ips[0],
     route_server_ip_02    = local.route_server_ips[1],
-    vyos_02_bgp_as_number = var.vyos_bgp_as_number,
+    keyos_02_bgp_as_number = var.keyos_bgp_as_number,
     dns                   = var.dns,
     on_prem_pub_ip        = var.on_prem_pub_ip,
     on_prem_bgp_as_number = var.on_prem_bgp_as_number,
@@ -257,7 +257,7 @@ resource "azurerm_linux_virtual_machine" "vyos_02_vm" {
   }))
 
   os_disk {
-    name                 = "vyos-02-vm-osdisk"
+    name                 = "keyos-02-vm-osdisk"
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
@@ -277,9 +277,9 @@ resource "azurerm_linux_virtual_machine" "vyos_02_vm" {
   }
 
   depends_on = [
-    azurerm_network_interface.vyos_02_pub_nic,
-    azurerm_network_interface.vyos_02_priv_nic,
-    azurerm_public_ip.vyos_02_vm_public_ip
+    azurerm_network_interface.keyos_02_pub_nic,
+    azurerm_network_interface.keyos_02_priv_nic,
+    azurerm_public_ip.keyos_02_vm_public_ip
   ]
 
   timeouts {

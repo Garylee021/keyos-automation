@@ -117,30 +117,30 @@ resource "aws_internet_gateway" "data_vpc_igw" {
 
 # ELASTICS IP FOR VYOS INSTANCES
 
-resource "aws_eip" "vyos_01_eip" {
+resource "aws_eip" "keyos_01_eip" {
   domain = "vpc"
 
   tags = {
-    Name = join("-", [var.prefix, var.vyos_eip_name, "01"])
+    Name = join("-", [var.prefix, var.keyos_eip_name, "01"])
   }
 }
 
-resource "aws_eip_association" "vyos_eip_association_01" {
-  allocation_id        = aws_eip.vyos_01_eip.id
-  network_interface_id = aws_network_interface.vyos_01_public_nic.id
+resource "aws_eip_association" "keyos_eip_association_01" {
+  allocation_id        = aws_eip.keyos_01_eip.id
+  network_interface_id = aws_network_interface.keyos_01_public_nic.id
 }
 
-resource "aws_eip" "vyos_02_eip" {
+resource "aws_eip" "keyos_02_eip" {
   domain = "vpc"
 
   tags = {
-    Name = join("-", [var.prefix, var.vyos_eip_name, "02"])
+    Name = join("-", [var.prefix, var.keyos_eip_name, "02"])
   }
 }
 
-resource "aws_eip_association" "vyos_eip_association_02" {
-  allocation_id        = aws_eip.vyos_02_eip.id
-  network_interface_id = aws_network_interface.vyos_02_public_nic.id
+resource "aws_eip_association" "keyos_eip_association_02" {
+  allocation_id        = aws_eip.keyos_02_eip.id
+  network_interface_id = aws_network_interface.keyos_02_public_nic.id
 }
 
 
@@ -178,7 +178,7 @@ resource "aws_route_table" "transit_vpc_public_rtb_01" {
 
   route {
     cidr_block           = var.on_prem_subnet_cidr
-    network_interface_id = aws_network_interface.vyos_02_public_nic.id
+    network_interface_id = aws_network_interface.keyos_02_public_nic.id
   }
 
   tags = {
@@ -208,7 +208,7 @@ resource "aws_route_table" "transit_vpc_public_rtb_02" {
 
   route {
     cidr_block           = var.on_prem_subnet_cidr
-    network_interface_id = aws_network_interface.vyos_01_public_nic.id
+    network_interface_id = aws_network_interface.keyos_01_public_nic.id
   }
 
   tags = {

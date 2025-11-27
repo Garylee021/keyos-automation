@@ -37,9 +37,9 @@ resource "azurerm_public_ip" "azure_vnet_public_address_lb" {
   tags                    = var.tags
 }
 
-# VyOS Route Table
-resource "azurerm_route_table" "azure_vnet_vpn_net_VyOS_route" {
-  name                          = join("-", [var.prefix, var.vnet_name, "VyOS", "route"])
+# KeyOS Route Table
+resource "azurerm_route_table" "azure_vnet_vpn_net_KeyOS_route" {
+  name                          = join("-", [var.prefix, var.vnet_name, "KeyOS", "route"])
   resource_group_name           = var.resource_group
   location                      = var.location
   disable_bgp_route_propagation = false
@@ -56,13 +56,13 @@ resource "azurerm_route_table" "azure_vnet_vpn_net_VyOS_route" {
 # Assosiate route table to subnet
 resource "azurerm_subnet_route_table_association" "azure_vnet_vpn_net_assosiation" {
   subnet_id      = azurerm_subnet.azure_vnet_priv_subnet.id
-  route_table_id = azurerm_route_table.azure_vnet_vpn_net_VyOS_route.id
+  route_table_id = azurerm_route_table.azure_vnet_vpn_net_KeyOS_route.id
 }
 
-# Create NIC for VyOS
+# Create NIC for KeyOS
 resource "azurerm_network_interface" "azure_vnet_vpn_net_nic" {
   count                = 2
-  name                 = join("-", [var.prefix, var.vnet_name, "VyOS", "${count.index}", "NIC"])
+  name                 = join("-", [var.prefix, var.vnet_name, "KeyOS", "${count.index}", "NIC"])
   location             = var.location
   resource_group_name  = var.resource_group
   enable_ip_forwarding = true
@@ -79,10 +79,10 @@ resource "azurerm_network_interface" "azure_vnet_vpn_net_nic" {
   ]
 }
 
-# VyOS Security Group Assosiation
-resource "azurerm_network_interface_security_group_association" "vpn_net_VyOS_attach" {
+# KeyOS Security Group Assosiation
+resource "azurerm_network_interface_security_group_association" "vpn_net_KeyOS_attach" {
   count                     = 2
   network_interface_id      = azurerm_network_interface.azure_vnet_vpn_net_nic[count.index].id
-  network_security_group_id = azurerm_network_security_group.azure_sg_vyos.id
-  depends_on                = [azurerm_network_security_group.azure_sg_vyos]
+  network_security_group_id = azurerm_network_security_group.azure_sg_keyos.id
+  depends_on                = [azurerm_network_security_group.azure_sg_keyos]
 }

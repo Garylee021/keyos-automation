@@ -37,9 +37,9 @@ resource "azurerm_public_ip" "azure_vnet_01_public_address" {
   tags                    = var.tags
 }
 
-# VyOS Route Table
-resource "azurerm_route_table" "azure_vnet_01_vyos_01_route" {
-  name                          = join("-", [var.prefix, var.vnet_01_name, "VyOS", "01", "route"])
+# KeyOS Route Table
+resource "azurerm_route_table" "azure_vnet_01_keyos_01_route" {
+  name                          = join("-", [var.prefix, var.vnet_01_name, "KeyOS", "01", "route"])
   resource_group_name           = var.resource_group
   location                      = var.location
   disable_bgp_route_propagation = false
@@ -49,21 +49,21 @@ resource "azurerm_route_table" "azure_vnet_01_vyos_01_route" {
     name                   = "Default"
     address_prefix         = "0.0.0.0/0"
     next_hop_type          = "VirtualAppliance"
-    next_hop_in_ip_address = azurerm_network_interface.azure_vnet_01_vyos_01_nic_priv.private_ip_address
+    next_hop_in_ip_address = azurerm_network_interface.azure_vnet_01_keyos_01_nic_priv.private_ip_address
   }
 }
 
 # Assosiate route table to subnet
 resource "azurerm_subnet_route_table_association" "azure_vnet_vpn_net_assosiation_01" {
   subnet_id      = azurerm_subnet.azure_vnet_01_priv_subnet.id
-  route_table_id = azurerm_route_table.azure_vnet_01_vyos_01_route.id
+  route_table_id = azurerm_route_table.azure_vnet_01_keyos_01_route.id
 }
 
 # --------------------------- Network Interface Cards ------------------------
 
-# VyOS-01 Pub-NIC
-resource "azurerm_network_interface" "azure_vnet_01_vyos_01_nic_pub" {
-  name                 = join("-", [var.prefix, var.vnet_01_name, "VyOS", "01", "pub", "NIC"])
+# KeyOS-01 Pub-NIC
+resource "azurerm_network_interface" "azure_vnet_01_keyos_01_nic_pub" {
+  name                 = join("-", [var.prefix, var.vnet_01_name, "KeyOS", "01", "pub", "NIC"])
   location             = var.location
   resource_group_name  = var.resource_group
   enable_ip_forwarding = true
@@ -81,9 +81,9 @@ resource "azurerm_network_interface" "azure_vnet_01_vyos_01_nic_pub" {
   ]
 }
 
-# VyOS-01 Priv-NIC
-resource "azurerm_network_interface" "azure_vnet_01_vyos_01_nic_priv" {
-  name                 = join("-", [var.prefix, var.vnet_01_name, "VyOS", "01", "priv", "NIC"])
+# KeyOS-01 Priv-NIC
+resource "azurerm_network_interface" "azure_vnet_01_keyos_01_nic_priv" {
+  name                 = join("-", [var.prefix, var.vnet_01_name, "KeyOS", "01", "priv", "NIC"])
   location             = var.location
   resource_group_name  = var.resource_group
   enable_ip_forwarding = true
@@ -100,8 +100,8 @@ resource "azurerm_network_interface" "azure_vnet_01_vyos_01_nic_priv" {
   ]
 }
 
-# VyOS 01 Security Group Assosiation
-resource "azurerm_network_interface_security_group_association" "azure_vnet_01_vyos_01_pub_attach" {
-  network_interface_id      = azurerm_network_interface.azure_vnet_01_vyos_01_nic_pub.id
-  network_security_group_id = azurerm_network_security_group.VyOS.id
+# KeyOS 01 Security Group Assosiation
+resource "azurerm_network_interface_security_group_association" "azure_vnet_01_keyos_01_pub_attach" {
+  network_interface_id      = azurerm_network_interface.azure_vnet_01_keyos_01_nic_pub.id
+  network_security_group_id = azurerm_network_security_group.KeyOS.id
 }

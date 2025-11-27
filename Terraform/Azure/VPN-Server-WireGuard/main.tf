@@ -1,8 +1,8 @@
 
-# Create VyOS instances 
-resource "azurerm_virtual_machine" "azure_vpn_net_vyos" {
+# Create KeyOS instances 
+resource "azurerm_virtual_machine" "azure_vpn_net_keyos" {
   count               = 2
-  name                = join("-", [var.prefix, "VyOS", "${count.index + 1}"])
+  name                = join("-", [var.prefix, "KeyOS", "${count.index + 1}"])
   location            = var.location
   resource_group_name = var.resource_group
   vm_size             = var.vm_size
@@ -26,17 +26,17 @@ resource "azurerm_virtual_machine" "azure_vpn_net_vyos" {
   }
 
   storage_os_disk {
-    name              = join("_", [var.vnet_name, "VyOS", "${count.index + 1}", "osdisk"])
+    name              = join("_", [var.vnet_name, "KeyOS", "${count.index + 1}", "osdisk"])
     managed_disk_type = "Standard_LRS"
     caching           = "ReadWrite"
     create_option     = "FromImage"
   }
 
   os_profile {
-    computer_name  = join("-", [var.vnet_name, "VyOS", "${count.index + 1}"])
+    computer_name  = join("-", [var.vnet_name, "KeyOS", "${count.index + 1}"])
     admin_username = var.admin_username
     admin_password = var.admin_password
-    custom_data = base64encode(templatefile("${path.module}/files/vyos_user_data.tpl", {
+    custom_data = base64encode(templatefile("${path.module}/files/keyos_user_data.tpl", {
       wg_server_subnet_prefix = var.wg_server_subnet_prefix,
       wg_server_Private_IP    = var.wg_server_Private_IP,
       wg_server_port          = var.wg_server_port,
@@ -45,7 +45,7 @@ resource "azurerm_virtual_machine" "azure_vpn_net_vyos" {
       wg_client_PresharedKey  = var.wg_client_PresharedKey,
       dns_1                   = var.dns_1,
       dns_2                   = var.dns_2,
-      vyos_number             = count.index + 1
+      keyos_number             = count.index + 1
     }))
   }
 

@@ -1,11 +1,11 @@
-# Terraform Project for Deploying VyOS on Azure with Route Server and High Availability Topology
+# Terraform Project for Deploying KeyOS on Azure with Route Server and High Availability Topology
 
-This Terraform project automates the deployment of **VyOS virtual routers** in Microsoft Azure, configured for **High Availability (HA)** and **dynamic routing** using Azure Route Server. It simulates a hybrid or multi-cloud environment and is ideal for validating routing, redundancy, and failover scenarios.
+This Terraform project automates the deployment of **KeyOS virtual routers** in Microsoft Azure, configured for **High Availability (HA)** and **dynamic routing** using Azure Route Server. It simulates a hybrid or multi-cloud environment and is ideal for validating routing, redundancy, and failover scenarios.
 
 The architecture includes:
-- Two VyOS routers in a Transit VNET, configured with BGP
+- Two KeyOS routers in a Transit VNET, configured with BGP
 - Azure Route Server for dynamic route distribution
-- Site-to-Site VPN connections to a simulated on-premises VyOS router
+- Site-to-Site VPN connections to a simulated on-premises KeyOS router
 - An Ubuntu VM for connectivity and routing validation
 - A Data VNET for testing and diagnostics
 
@@ -13,9 +13,9 @@ The architecture includes:
 
 ## Key Features
 
-- **High Availability**: Dual VyOS routers for redundancy and failover
+- **High Availability**: Dual KeyOS routers for redundancy and failover
 - **Dynamic Routing**: BGP-based routing via Azure Route Server
-- **Hybrid Connectivity**: Site-to-Site VPN integration with a simulated on-prem VyOS
+- **Hybrid Connectivity**: Site-to-Site VPN integration with a simulated on-prem KeyOS
 - **Testing Environment**: Includes Ubuntu VM for verification and diagnostics
 - **Modular & Flexible**: Easily configurable via variables
 
@@ -23,7 +23,7 @@ The architecture includes:
 
 ## Why Use This Module?
 
-This module provides a robust, repeatable foundation for building **resilient network architectures** in Azure. By combining VyOS's powerful routing features with Terraform and Azure-native services, it enables:
+This module provides a robust, repeatable foundation for building **resilient network architectures** in Azure. By combining KeyOS's powerful routing features with Terraform and Azure-native services, it enables:
 
 - Rapid deployment of cloud edge routers
 - Full control over BGP route advertisement and filtering
@@ -37,27 +37,27 @@ This module provides a robust, repeatable foundation for building **resilient ne
 ## Topology Overview
 
 This is the connection diagram:  
-![Infrastructure Diagram](diagram/VyOS-HA-setup-on-Azure.png)
+![Infrastructure Diagram](diagram/KeyOS-HA-setup-on-Azure.png)
 
 This deployment architecture simulates a real-world enterprise network scenario for testing and validation purposes.
 
 ### Description
 
 #### Transit VNET:
-- Hosts two VyOS virtual routers (same AS 65002)
+- Hosts two KeyOS virtual routers (same AS 65002)
 - BGP peering with Azure Route Server
-- Site-to-Site VPN tunnels to a simulated on-premises Data Center VyOS (AS 65001)
+- Site-to-Site VPN tunnels to a simulated on-premises Data Center KeyOS (AS 65001)
 
 #### Data VNET:
 - Peered with Transit VNET
 - Ubuntu VM for testing
 
 #### Azure Route Server (AS 65515):
-- BGP sessions with both VyOS routers
+- BGP sessions with both KeyOS routers
 - Distributes learned routes across peered VNets dynamically
 
-#### On-Premises VyOS (AS 65001):
-- BGP and S2S VPN connections with both Azure VyOS routers
+#### On-Premises KeyOS (AS 65001):
+- BGP and S2S VPN connections with both Azure KeyOS routers
 - Enables redundancy and real failover scenarios
 
 ---
@@ -102,13 +102,13 @@ Before applying this module, ensure you have:
 ```
 .
 ├── files/
-│   ├── on-prem-vyos-config.txt
-│   ├── vyos_01_user_data.tfpl
-│   └── vyos_02_user_data.tfpl
+│   ├── on-prem-keyos-config.txt
+│   ├── keyos_01_user_data.tfpl
+│   └── keyos_02_user_data.tfpl
 ├── keys/
 │   └── ssh keys
 ├── diagram/
-│   └── VyOS-HA-setup-on-Azure.png
+│   └── KeyOS-HA-setup-on-Azure.png
 ├── main.tf
 ├── network.tf
 ├── route_server.tf
@@ -163,15 +163,15 @@ Follow these steps to initialize, plan, apply, and manage your infrastructure wi
     ```
     Confirm when prompted to create the resources defined in the configuration files.
     This command applies the changes required to reach the desired state of the configuration.
-    It will create the VyOS routers, Route Server, and associated resources in Azure.
+    It will create the KeyOS routers, Route Server, and associated resources in Azure.
     > **Note:** Ensure you have the correct permissions in your Azure subscription to create resources.
 
 6. **View Outputs**
     ```sh
     terraform output
     ```
-    This command displays the outputs defined in `outputs.tf`, such as public IPs of the VyOS routers and Route Server.
-    Use these IPs to access the VyOS routers and verify connectivity.
+    This command displays the outputs defined in `outputs.tf`, such as public IPs of the KeyOS routers and Route Server.
+    Use these IPs to access the KeyOS routers and verify connectivity.
 
 7. **Destroy Infrastructure**
     ```sh
@@ -184,12 +184,12 @@ Follow these steps to initialize, plan, apply, and manage your infrastructure wi
 
 ### Management
 
-To access the VyOS VM: 
+To access the KeyOS VM: 
 
 ```sh
-ssh adminuser@<vyos_public_ip>
+ssh adminuser@<keyos_public_ip>
 ```
-Replace `<vyos_public_ip>` with the public IP address of the VyOS router you want to access.
+Replace `<keyos_public_ip>` with the public IP address of the KeyOS router you want to access.
 
 To access the Ubuntu VM:
 
@@ -202,27 +202,27 @@ Replace `<ubuntu_public_ip>` with the public IP address of the Ubuntu VM you wan
 
 ## Post-Deployment Configuration
 
-After deployment, apply the following manual changes to both VyOS routers.
+After deployment, apply the following manual changes to both KeyOS routers.
     
-### VyOS-01
+### KeyOS-01
 
-```vyos
+```keyos
 set protocols static route 192.168.3.0/27 next-hop 192.168.11.1
 set protocols static route 192.168.41.0/24 next-hop 192.168.11.1
 
-delete vpn ipsec site-to-site peer On-Prem-VyOS remote-address
-set vpn ipsec site-to-site peer On-Prem-VyOS remote-address '<On-Prem-VyOS-Pub-IP>'
+delete vpn ipsec site-to-site peer On-Prem-KeyOS remote-address
+set vpn ipsec site-to-site peer On-Prem-KeyOS remote-address '<On-Prem-KeyOS-Pub-IP>'
 set vpn ipsec options disable-route-autoinstall
 ```
 
-### VyOS-02
+### KeyOS-02
 
-```vyos
+```keyos
 set protocols static route 192.168.3.0/27 next-hop 192.168.21.1
 set protocols static route 192.168.41.0/24 next-hop 192.168.21.1
 
-delete vpn ipsec site-to-site peer On-Prem-VyOS remote-address
-set vpn ipsec site-to-site peer On-Prem-VyOS remote-address '<On-Prem-VyOS-Pub-IP>'
+delete vpn ipsec site-to-site peer On-Prem-KeyOS remote-address
+set vpn ipsec site-to-site peer On-Prem-KeyOS remote-address '<On-Prem-KeyOS-Pub-IP>'
 set vpn ipsec options disable-route-autoinstall
 ```
 
@@ -230,13 +230,13 @@ set vpn ipsec options disable-route-autoinstall
 >
 > - `192.168.3.0/27`: Route Server subnet (adjust if different)  
 > - `192.168.41.0/24`: Data VNET subnet (adjust if different)  
-> - `192.168.11.1`: VyOS-01 private subnet gateway  
-> - `192.168.21.1`: VyOS-02 private subnet gateway  
-> - `<On-Prem-VyOS-Pub-IP>`: Public IP of your on-prem VyOS
+> - `192.168.11.1`: KeyOS-01 private subnet gateway  
+> - `192.168.21.1`: KeyOS-02 private subnet gateway  
+> - `<On-Prem-KeyOS-Pub-IP>`: Public IP of your on-prem KeyOS
 
 ## Additional Resources
 
-- [VyOS Documentation](https://docs.vyos.io/en/1.4/)
+- [KeyOS Documentation](https://docs.keyos.io/en/1.4/)
 - [Azure Route Server Documentation](https://learn.microsoft.com/en-us/azure/route-server)
 - [Terraform Azure Provider Documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)
 - [Terraform Documentation](https://www.terraform.io/docs/index.html)

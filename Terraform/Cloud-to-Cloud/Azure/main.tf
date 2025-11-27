@@ -1,7 +1,7 @@
 
-# Public IP for VyOS VM
-resource "azurerm_public_ip" "vyos_vm_public_ip" {
-  name                    = "vyos-vm-public-ip"
+# Public IP for KeyOS VM
+resource "azurerm_public_ip" "keyos_vm_public_ip" {
+  name                    = "keyos-vm-public-ip"
   location                = var.location
   resource_group_name     = var.resource_group
   allocation_method       = "Static"
@@ -27,19 +27,19 @@ resource "azurerm_public_ip" "ubuntu_vm_public_ip" {
 
 }
 
-# VyOS Public NIC
-resource "azurerm_network_interface" "vyos_pub_nic" {
-  name                = "vyos-pub-nic"
+# KeyOS Public NIC
+resource "azurerm_network_interface" "keyos_pub_nic" {
+  name                = "keyos-pub-nic"
   location            = var.location
   resource_group_name = var.resource_group
   tags                = var.tags
 
   ip_configuration {
-    name                          = "vyos-public"
+    name                          = "keyos-public"
     subnet_id                     = azurerm_subnet.test_vnet_public.id
     private_ip_address_allocation = "Static"
-    private_ip_address            = var.vyos_public_ip_address
-    public_ip_address_id          = azurerm_public_ip.vyos_vm_public_ip.id
+    private_ip_address            = var.keyos_public_ip_address
+    public_ip_address_id          = azurerm_public_ip.keyos_vm_public_ip.id
   }
 
   timeouts {
@@ -48,9 +48,9 @@ resource "azurerm_network_interface" "vyos_pub_nic" {
   }
 }
 
-# VyOS Private NIC
-resource "azurerm_network_interface" "vyos_priv_nic" {
-  name                = "vyos-priv-nic"
+# KeyOS Private NIC
+resource "azurerm_network_interface" "keyos_priv_nic" {
+  name                = "keyos-priv-nic"
   location            = var.location
   resource_group_name = var.resource_group
   tags                = var.tags
@@ -59,10 +59,10 @@ resource "azurerm_network_interface" "vyos_priv_nic" {
   accelerated_networking_enabled = true
 
   ip_configuration {
-    name                          = "vyos-private"
+    name                          = "keyos-private"
     subnet_id                     = azurerm_subnet.test_vnet_private.id
     private_ip_address_allocation = "Static"
-    private_ip_address            = var.vyos_priv_nic_ip_address
+    private_ip_address            = var.keyos_priv_nic_ip_address
   }
 
   timeouts {
@@ -88,17 +88,17 @@ resource "azurerm_network_interface" "ubuntu_vm_nic" {
 
 }
 
-# VyOS virtual machine parameters
-resource "azurerm_linux_virtual_machine" "vyos_vm" {
-  name                = "vyos-vm"
+# KeyOS virtual machine parameters
+resource "azurerm_linux_virtual_machine" "keyos_vm" {
+  name                = "keyos-vm"
   location            = var.location
   resource_group_name = var.resource_group
-  size                = var.vyos_vm_size
+  size                = var.keyos_vm_size
   tags                = var.tags
 
   network_interface_ids = [
-    azurerm_network_interface.vyos_pub_nic.id,
-    azurerm_network_interface.vyos_priv_nic.id
+    azurerm_network_interface.keyos_pub_nic.id,
+    azurerm_network_interface.keyos_priv_nic.id
   ]
 
   admin_ssh_key {
@@ -110,19 +110,19 @@ resource "azurerm_linux_virtual_machine" "vyos_vm" {
   admin_password                  = var.admin_password
   disable_password_authentication = false
 
-  custom_data = base64encode(templatefile("${path.module}/files/vyos_user_data.tpl", {
+  custom_data = base64encode(templatefile("${path.module}/files/keyos_user_data.tpl", {
     private_subnet_cidr       = join("", var.private_subnet_prefix),
-    vyos_public_ip_address    = azurerm_public_ip.vyos_vm_public_ip.ip_address,
-    vyos_pub_nic_ip           = azurerm_network_interface.vyos_pub_nic.private_ip_address,
-    vyos_priv_nic_ip          = azurerm_network_interface.vyos_priv_nic.private_ip_address,
-    vyos_bgp_as_number        = var.vyos_bgp_as_number,
+    keyos_public_ip_address    = azurerm_public_ip.keyos_vm_public_ip.ip_address,
+    keyos_pub_nic_ip           = azurerm_network_interface.keyos_pub_nic.private_ip_address,
+    keyos_priv_nic_ip          = azurerm_network_interface.keyos_priv_nic.private_ip_address,
+    keyos_bgp_as_number        = var.keyos_bgp_as_number,
     dns                       = var.dns,
     aws_public_ip             = var.aws_public_ip,
     aws_bgp_as_number         = var.aws_bgp_as_number
   }))
 
   os_disk {
-    name                 = "vyos-vm-osdisk"
+    name                 = "keyos-vm-osdisk"
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
@@ -141,9 +141,9 @@ resource "azurerm_linux_virtual_machine" "vyos_vm" {
    }
 
   depends_on = [
-    azurerm_network_interface.vyos_pub_nic,
-    azurerm_network_interface.vyos_priv_nic,
-    azurerm_public_ip.vyos_vm_public_ip
+    azurerm_network_interface.keyos_pub_nic,
+    azurerm_network_interface.keyos_priv_nic,
+    azurerm_public_ip.keyos_vm_public_ip
   ]
 
   timeouts {

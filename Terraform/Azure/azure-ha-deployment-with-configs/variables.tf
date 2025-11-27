@@ -12,25 +12,25 @@ variable "location" {
 variable "transit_vnet_name" {
   description = "The name of the virtual network"
   type        = string
-  default     = "vyos_transit_net"
+  default     = "keyos_transit_net"
 }
 
 variable "data_vnet_name" {
   description = "The name of the virtual network"
   type        = string
-  default     = "vyos_data_net"
+  default     = "keyos_data_net"
 }
 
 variable "transit_vnet_public_subnet_name" {
   description = "The name of the public subnet"
   type        = string
-  default     = "vyos_transit_net_pub"
+  default     = "keyos_transit_net_pub"
 }
 
 variable "transit_vnet_private_subnet_name" {
   description = "The base name of the private subnets"
   type        = string
-  default     = "vyos_transit_net_priv"
+  default     = "keyos_transit_net_priv"
 }
 
 variable "data_vnet_public_subnet_name" {
@@ -98,32 +98,32 @@ variable "route_server_subnet_prefix" {
   default     = ["192.168.3.0/27"]
 }
 
-variable "vyos_01_public_nic_ip_address" {
-  description = "VyOS VM Public NIV 01 address"
+variable "keyos_01_public_nic_ip_address" {
+  description = "KeyOS VM Public NIV 01 address"
   type        = string
   default     = "192.168.1.11"
 }
 
-variable "vyos_01_priv_nic_ip_address" {
-  description = "VyOS VM Private NIC 01 address"
+variable "keyos_01_priv_nic_ip_address" {
+  description = "KeyOS VM Private NIC 01 address"
   type        = string
   default     = "192.168.11.11"
 }
 
-variable "vyos_02_public_nic_ip_address" {
-  description = "VyOS VM Public NIV 02 address"
+variable "keyos_02_public_nic_ip_address" {
+  description = "KeyOS VM Public NIV 02 address"
   type        = string
   default     = "192.168.2.11"
 }
 
-variable "vyos_02_priv_nic_ip_address" {
-  description = "VyOS VM Private NIC 02 address"
+variable "keyos_02_priv_nic_ip_address" {
+  description = "KeyOS VM Private NIC 02 address"
   type        = string
   default     = "192.168.21.11"
 }
 
-variable "vyos_vm_size" {
-  description = "The size of the VyOS VM"
+variable "keyos_vm_size" {
+  description = "The size of the KeyOS VM"
   type        = string
   default     = "Standard_DS3_v2"
 }
@@ -161,13 +161,13 @@ variable "image_publisher" {
 variable "image_offer" {
   description = "Name of the offer"
   type        = string
-  default     = "vyos-1-2-lts-on-azure"
+  default     = "keyos-1-2-lts-on-azure"
 }
 
 variable "image_sku" {
   description = "Image SKU to apply"
   type        = string
-  default     = "vyos-1-3"
+  default     = "keyos-1-3"
 }
 
 variable "image_version" {
@@ -181,7 +181,7 @@ variable "tags" {
   type        = map(string)
   default = {
     environment = "lab"
-    project     = "vyos-demo"
+    project     = "keyos-demo"
   }
 }
 
@@ -189,7 +189,7 @@ variable "dns" {
   default = "8.8.8.8"
 }
 
-variable "vyos_bgp_as_number" {
+variable "keyos_bgp_as_number" {
   default = "65002"
 }
 

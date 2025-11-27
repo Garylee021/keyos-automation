@@ -13,19 +13,19 @@ variable "location" {
 variable "vnet_name" {
   description = "The name of the virtual network"
   type        = string
-  default     = "vyos_test_net"
+  default     = "keyos_test_net"
 }
 
 variable "public_subnet_name" {
   description = "The name of the public subnet"
   type        = string
-  default     = "vyos_test_net_pub"
+  default     = "keyos_test_net_pub"
 }
 
 variable "private_subnet_name" {
   description = "The base name of the private subnets"
   type        = string
-  default     = "vyos_test_net_priv"
+  default     = "keyos_test_net_priv"
 }
 
 variable "vnet_prefix" {
@@ -46,20 +46,20 @@ variable "private_subnet_prefix" {
   default     = ["192.168.11.0/24"]
 }
 
-variable "vyos_priv_nic_ip_address" {
-  description = "VyOS VM Private NIC address"
+variable "keyos_priv_nic_ip_address" {
+  description = "KeyOS VM Private NIC address"
   type        = string
   default     = "192.168.11.11"
 }
 
-variable "vyos_public_ip_address" {
-  description = "VyOS VM Public address"
+variable "keyos_public_ip_address" {
+  description = "KeyOS VM Public address"
   type        = string
   default     = "192.168.1.11"
 }
 
-variable "vyos_vm_size" {
-  description = "The size of the VyOS VM"
+variable "keyos_vm_size" {
+  description = "The size of the KeyOS VM"
   type        = string
   default     = "Standard_DS3_v2"
 }
@@ -96,13 +96,13 @@ variable "image_publisher" {
 variable "image_offer" {
   description = "Name of the offer"
   type        = string
-  default     = "vyos-1-2-lts-on-azure"
+  default     = "keyos-1-2-lts-on-azure"
 }
 
 variable "image_sku" {
   description = "Image SKU to apply"
   type        = string
-  default     = "vyos-1-3"
+  default     = "keyos-1-3"
 }
 
 variable "image_version" {
@@ -116,7 +116,7 @@ variable "tags" {
   type        = map(string)
   default = {
     environment = "lab"
-    project     = "vyos-test"
+    project     = "keyos-test"
   }
 }
 
@@ -124,7 +124,7 @@ variable "dns" {
   default = "8.8.8.8"
 }
 
-variable "vyos_bgp_as_number" {
+variable "keyos_bgp_as_number" {
   default = "65002"
 }
 

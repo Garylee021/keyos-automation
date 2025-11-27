@@ -1,12 +1,12 @@
-resource "azurerm_network_security_group" "azure_sg_vyos" {
-  name                = join("-", [var.prefix, "VyOS", "SG"])
+resource "azurerm_network_security_group" "azure_sg_keyos" {
+  name                = join("-", [var.prefix, "KeyOS", "SG"])
   location            = var.location
   resource_group_name = var.resource_group
   tags                = var.tags
 
   # For SSH Traffic
   security_rule {
-    name                       = "SSH-VyOS"
+    name                       = "SSH-KeyOS"
     priority                   = 101
     direction                  = "Inbound"
     access                     = "Allow"

@@ -47,17 +47,17 @@ resource "aws_internet_gateway" "transit_vpc_igw" {
 
 # ELASTICS IP FOR VYOS INSTANCES
 
-resource "aws_eip" "vyos_eip" {
+resource "aws_eip" "keyos_eip" {
   domain = "vpc"
 
   tags = {
-    Name = join("-", [var.prefix, var.vyos_eip_name])
+    Name = join("-", [var.prefix, var.keyos_eip_name])
   }
 }
 
-resource "aws_eip_association" "vyos_eip_association" {
-  allocation_id        = aws_eip.vyos_eip.id
-  network_interface_id = aws_network_interface.vyos_public_nic.id
+resource "aws_eip_association" "keyos_eip_association" {
+  allocation_id        = aws_eip.keyos_eip.id
+  network_interface_id = aws_network_interface.keyos_public_nic.id
 }
 
 # TRANSIT VPC ROUTE PUBLIC TABLES
@@ -91,7 +91,7 @@ resource "aws_route_table" "transit_vpc_private_rtb" {
 
    route {
     cidr_block = "192.168.0.0/16"
-    network_interface_id = aws_network_interface.vyos_private_nic.id
+    network_interface_id = aws_network_interface.keyos_private_nic.id
   }
 
   tags = {
