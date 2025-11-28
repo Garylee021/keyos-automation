@@ -19,7 +19,7 @@ variable "availability_zone_02" {
 variable "keyos_ami_id" {
   description = "KeyOS custom AMI from AWS"
   type        = string
-  default     = "<VYOS AMI>"
+  default     = "<KEYOS AMI>"
 }
 
 variable "prefix" {

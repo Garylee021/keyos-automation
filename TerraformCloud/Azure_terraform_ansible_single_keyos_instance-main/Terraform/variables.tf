@@ -84,7 +84,7 @@ variable "admin_username" {
 
 variable "admin_password" {
   description = "Administrator password"
-  default     = "Vyos0!"
+  default     = "Keyos0!"
 }
 
 variable "source_network" {

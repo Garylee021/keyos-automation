@@ -45,7 +45,7 @@ resource "aws_internet_gateway" "transit_vpc_igw" {
   }
 }
 
-# ELASTICS IP FOR VYOS INSTANCES
+# ELASTICS IP FOR KEYOS INSTANCES
 
 resource "aws_eip" "keyos_eip" {
   domain = "vpc"

@@ -9,7 +9,7 @@ resource "aws_key_pair" "ec2_key" {
   }
 }
 
-# THE LATEST AMAZON VYOS 1.4 IMAGE
+# THE LATEST AMAZON KEYOS 1.4 IMAGE
 #
 # KeyOS AWS Marketplace publisher account ID: 679593333241
 # This ID is required for filtering official KeyOS AMIs via `aws ec2 describe-images`.
@@ -52,7 +52,7 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
-# VYOS INSTANCE
+# KEYOS INSTANCE
 
 resource "aws_instance" "keyos_01" {
   ami               = data.aws_ami.keyos.id

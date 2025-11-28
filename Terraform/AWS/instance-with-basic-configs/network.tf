@@ -47,7 +47,7 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
-# ELASTICS IP FOR VYOS
+# ELASTICS IP FOR KEYOS
 
 resource "aws_eip" "keyos_eip" {
   domain     = "vpc"

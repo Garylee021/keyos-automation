@@ -14,11 +14,11 @@ output "VPN_Server_Public_IP_Address" {
   value = azurerm_public_ip.azure_vnet_public_address_lb.ip_address
 }
 
-output "VyOS_01_Private_IP_Address" {
+output "KeyOS_01_Private_IP_Address" {
   value = azurerm_network_interface.azure_vnet_vpn_net_nic[0].private_ip_address
 }
 
-output "VyOS_02_Private_IP_Address" {
+output "KeyOS_02_Private_IP_Address" {
   value = azurerm_network_interface.azure_vnet_vpn_net_nic[1].private_ip_address
 }
 

@@ -7,6 +7,6 @@ output "Admin_Password" {
 }
 
 # IP Address configuration
-output "VyOS_01_Public_IP_Address" {
+output "KeyOS_01_Public_IP_Address" {
   value = azurerm_public_ip.azure_vnet_01_public_address.ip_address
 }

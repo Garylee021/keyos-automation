@@ -3,4 +3,4 @@ ansible_network_os: keyos.keyos.keyos
 
 # user and password gets from terraform variables "admin_username" and "admin_password"
 ansible_user: keyos
-ansible_ssh_pass: Vyos0!
+ansible_ssh_pass: Keyos0!

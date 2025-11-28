@@ -10,7 +10,7 @@ resource "aws_key_pair" "ec2_key" {
 }
 
 
-# THE LATEST AMAZON VYOS 1.4 IMAGE
+# THE LATEST AMAZON KEYOS 1.4 IMAGE
 
 data "aws_ami" "keyos" {
   most_recent = true
@@ -29,7 +29,7 @@ data "aws_ami" "keyos" {
 }
 
 
-# VYOS INSTANCE
+# KEYOS INSTANCE
 
 resource "aws_instance" "keyos" {
   ami               = data.aws_ami.keyos.id

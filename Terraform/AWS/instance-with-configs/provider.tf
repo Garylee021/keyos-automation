@@ -13,8 +13,8 @@ provider "aws" {
   region = var.aws_region
   default_tags {
     tags = {
-      Company     = "VyOS Inc"
-      Project     = "VyOS-Demo"
+      Company     = "KeyOS Inc"
+      Project     = "KeyOS-Demo"
       Environment = "Lab"
       ManagedBy   = "Terraform"
     }

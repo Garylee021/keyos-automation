@@ -1,5 +1,5 @@
-resource "azurerm_network_security_group" "VyOS" {
-  name                = join("-", [var.prefix, "VyOS", "SG"])
+resource "azurerm_network_security_group" "KeyOS" {
+  name                = join("-", [var.prefix, "KeyOS", "SG"])
   location            = var.location
   resource_group_name = var.resource_group
   tags                = var.tags
